@@ -1,0 +1,14 @@
+[project]
+name = "agentdemo"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pydantic-ai[logfire]>=0.1.11",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.11.9",
+]
