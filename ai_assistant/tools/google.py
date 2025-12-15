@@ -88,15 +88,15 @@ class CalendarClient:
         self.__creds = authenticate_google(scopes_requested=self.SCOPES)
         self.service = build("calendar", "v3", credentials=self.__creds)
 
-    def get_events(self, start_time: datetime, end_time: datetime) -> list[Message]:
+    def get_events(self, start_time: datetime, end_time: datetime) -> list[dict]:
         """Returns events between start_time and end_time."""
         try:
             events_result = (
                 self.service.events()
                 .list(
                     calendarId="primary",
-                    timeMin=start_time.isoformat(),
-                    timeMax=end_time.isoformat(),
+                    timeMin=start_time.isoformat().replace("+00:00", "Z"),
+                    timeMax=end_time.isoformat().replace("+00:00", "Z"),
                     maxResults=30,
                     singleEvents=True,
                     orderBy="startTime",

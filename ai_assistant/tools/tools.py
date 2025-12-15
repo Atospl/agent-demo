@@ -1,12 +1,14 @@
 """Module contains tools to be used by AI agents."""
 
-from pydantic_ai import RunContext
+from datetime import timedelta, datetime
+from zoneinfo import ZoneInfo
 
-# Leaving import for exposing within the package
-
-from ai_assistant.models import Message
+from ai_assistant.tools.google import CalendarClient
 
 
-async def get_recent_emails(ctx: RunContext) -> list[Message]:
-    """Get recent emails from the user's Gmail account."""
-    return await ctx.get_tool_output("get_recent_emails")
+def get_upcoming_calendar_events() -> list[dict]:
+    client = CalendarClient()
+    return client.get_events(
+        start_time=datetime.now(ZoneInfo("Europe/Warsaw")),
+        end_time=datetime.now(ZoneInfo("Europe/Warsaw")) + timedelta(days=7),
+    )
